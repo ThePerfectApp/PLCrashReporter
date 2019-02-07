@@ -1261,7 +1261,7 @@ plcrash_error_t plcrash_log_writer_write (plcrash_log_writer_t *writer,
         struct timespec current_time;
         if (clock_gettime(CLOCK_REALTIME, &current_time) == 0) {
             // timestamp in milliseconds
-            timestamp = current_time.tv_sec * 1000 + round(current_time.tv_nsec / 1000000);
+            timestamp = (current_time.tv_sec * 1000) + (current_time.tv_nsec / 1000000);
         } else {
             PLCF_DEBUG("Failed to fetch timestamp: %s", strerror(errno));
             timestamp = 0;
