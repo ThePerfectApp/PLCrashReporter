@@ -1,5 +1,11 @@
 # PLCrashReporter Change Log
 
+## Version 1.2.3-tpa-rc1
+
+* Use clock_gettime() to get crash timestamp with sub-second precision.
+
+___
+
 ## Version 1.2.3-rc1
 
 * Add preview support for the arm64e CPU architecture.
