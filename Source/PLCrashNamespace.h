@@ -35,7 +35,9 @@
  * This may be used to avoid symbol conflicts between multiple libraries
  * that may both incorporate PLCrashReporter.
  */
+#if !defined(PLCRASHREPORTER_PREFIX)
 #define PLCRASHREPORTER_PREFIX MS
+#endif
 
 
 // We need two extra layers of indirection to make CPP substitute
