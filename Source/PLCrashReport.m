@@ -333,9 +333,15 @@ error:
         osBuild = [NSString stringWithUTF8String: systemInfo->os_build];
     
     /* Set up the timestamp, if available */
-    if (systemInfo->timestamp != 0)
-        timestamp = [NSDate dateWithTimeIntervalSince1970: systemInfo->timestamp];
-    
+    if (systemInfo->timestamp != 0) {
+        NSTimeInterval ts = systemInfo->timestamp;
+        if (ts > 1000000000000) {
+            // Handle crash report written after we changed systemInfo->timestamp to milliseconds.
+            ts = 0.001 * ts;
+        }
+        timestamp = [NSDate dateWithTimeIntervalSince1970: ts];
+    }
+
     /* Done */
     return [[[PLCrashReportSystemInfo alloc] initWithOperatingSystem: (PLCrashReportOperatingSystem) systemInfo->operating_system
                                               operatingSystemVersion: [NSString stringWithUTF8String: systemInfo->os_version]

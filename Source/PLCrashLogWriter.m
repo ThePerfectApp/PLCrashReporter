@@ -1254,11 +1254,15 @@ plcrash_error_t plcrash_log_writer_write (plcrash_log_writer_t *writer,
 
     /* System Info */
     {
-        time_t timestamp;
+        int64_t timestamp;
         uint32_t size;
 
         /* Must stay the same across both calls, so get the timestamp here */
-        if (time(&timestamp) == (time_t)-1) {
+        struct timespec current_time;
+        if (clock_gettime(CLOCK_REALTIME, &current_time) == 0) {
+            // timestamp in milliseconds
+            timestamp = current_time.tv_sec * 1000 + round(current_time.tv_nsec / 1000000);
+        } else {
             PLCF_DEBUG("Failed to fetch timestamp: %s", strerror(errno));
             timestamp = 0;
         }
